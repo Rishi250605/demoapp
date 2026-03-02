@@ -52,6 +52,18 @@ app.get("/api/users", (req, res) => {
     res.json(results);
   });
 });
+app.post("/api/users", (req, res) => {
+  const { id, name} = req.body;
+
+  db.query(
+    "INSERT INTO users (id, name) VALUES (?, ?)",
+    [id, name],
+    (err, results) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "User added", id: results.insertId });
+    }
+  );
+});
 
 // ---------- Start Server ----------
 const PORT = process.env.PORT || 5000;
